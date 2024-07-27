@@ -1,6 +1,6 @@
 body {
   margin: 20px;
-  background-color: lightgrey;
+  background-color: rgb(162, 205, 215);
 }
 
 .app-container {
@@ -10,7 +10,7 @@ body {
 @media (min-width: 600px) {
   .app-container {
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 400px 1fr;
     gap: 20px;
   }
 }
@@ -66,7 +66,7 @@ input {
 
 .note-form button {
   border-radius: 5px;
-  background-color: rgb(64, 154, 184);
+  background-color: rgb(16, 124, 160);
   border: none;
   padding: 10px;
   font-size: 16px;

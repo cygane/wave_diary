@@ -6,6 +6,7 @@ interface Note {
   id: number;
   title: string;
   content: string;
+  image: string | null;
 }
 
 const App = () => {
@@ -14,36 +15,50 @@ const App = () => {
       id: 1,
       title: "test note 1",
       content: "bla bla note1",
+      image: null,
     },
     {
       id: 2,
       title: "test note 2 ",
       content: "bla bla note2",
+      image: null,
     },
     {
       id: 3,
       title: "test note 3",
       content: "bla bla note3",
+      image: null,
     },
     {
       id: 4,
       title: "test note 4 ",
       content: "bla bla note4",
+      image: null,
     },
     {
       id: 5,
       title: "test note 5",
       content: "bla bla note5",
+      image: null,
     },
     {
       id: 6,
       title: "test note 6",
       content: "bla bla note6",
+      image: null,
     },
   ]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+
+  //TODO: change this function
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(event.target.files[0]);
+    }
+  };
 
   const handleNoteClick = (note: Note) => {
     setSelectedNote(note);
@@ -58,11 +73,13 @@ const App = () => {
       id: notes.length + 1,
       title: title,
       content: content,
+      image: image ? URL.createObjectURL(image) : null,
     };
     
     setNotes([newNote, ...notes]);
     setTitle("");
     setContent("");
+    setImage(null);
   };
 
   const handleUpdateNote = (event: React.FormEvent) => {
@@ -76,6 +93,7 @@ const App = () => {
       id: selectedNote.id,
       title: title,
       content: content,
+      image: image ? URL.createObjectURL(image) : selectedNote.image,
     };
   
     const updatedNotesList = notes.map((note) => (note.id === selectedNote.id ? updatedNote : note));
@@ -83,12 +101,14 @@ const App = () => {
     setNotes(updatedNotesList);
     setTitle("");
     setContent("");
+    setImage(null);
     setSelectedNote(null);
   };
 
   const handleCancel = () => {
     setTitle("");
     setContent("");
+    setImage(null);
     setSelectedNote(null);
   };
 
@@ -119,6 +139,7 @@ const App = () => {
           rows={10}
           required
         ></textarea>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
         {selectedNote ? (
           <div className="edit-buttons">
             <button type="submit">Save</button>
@@ -136,15 +157,9 @@ const App = () => {
             </div>
             <h2>{note.title}</h2>
             <p>{note.content}</p>
+            {note.image && <img src={note.image} alt={note.title} />}
           </div>
         ))}
-        <div className="note-item">
-          <div className="notes-header">
-            <button>x</button>
-          </div>
-          <h2>Note Title</h2>
-          <p>Note content</p>
-        </div>
       </div>
     </div>
   );
